@@ -1,7 +1,5 @@
 # bamazonCustomer.io
 
-# Node.js & MySQL
-
 ## Overview
 
 In this activity, you'll be creating an Amazon-like storefront with the MySQL skills you learned this unit. The app will take in orders from customers and deplete stock from the store's inventory. As a bonus task, you can program your app to track product sales across your store's departments and then provide a summary of the highest-grossing departments in the store.
@@ -14,7 +12,7 @@ Make sure you use the normal GitHub. Because this is a CLI App, there will be no
 
 * Include screenshots (or a video) of typical user flows through your application (for the customer and if relevant the manager/supervisor). This includes views of the prompts and the responses after their selection (for the different selection options).
 
-* Include any other screenshots you deem necessary to help someone who has never been introduced to your application understand the purpose and function of it. This is how you will communicate to potential employers/other developers in the future what you built and why, and to show how it works. 
+* Include any other screenshots you deem necessary to help someone who has never been introduced to your application understand the purpose and function of it. This is how you will communicate to potential employers/other developers in the future what you built and why, and to show how it works.
 
 * Because screenshots (and well-written READMEs) are extremely important in the context of GitHub, this will be part of the grading.
 
@@ -76,5 +74,3 @@ Having an active and healthy commit history on GitHub is important for your futu
 8. However, if your store _does_ have enough of the product, you should fulfill the customer's order.
    * This means updating the SQL database to reflect the remaining quantity.
    * Once the update goes through, show the customer the total cost of their purchase.
-
-- - -
