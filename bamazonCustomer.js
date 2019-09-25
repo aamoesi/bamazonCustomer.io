@@ -1,167 +1,95 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-var inStock = 0;
-var totalPrice = 0;
+var table = require("console.table");
 
-//-----------------------------------------------------------//
-// Create the Connection to the DB //
-//-----------------------------------------------------------//
+
+// Create connection
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
-
     user: "root",
     password: "root",
     database: "bamazon"
 });
 
-// Connect to SQL server and SQL DB
+//connect to mysql server and sql database
 connection.connect(function (err) {
     if (err) throw err;
+    //console.log("connected");
+    //run start function after making connection
+    seeTable();
+})
 
-    // run start function after connection is made to prompt user
-    showProducts();
-});
-//-----------------------------------------------------------//
-// end Connection to the DB //
-//-----------------------------------------------------------//
+//display table
+var seeTable = function () {
+    connection.query("SELECT * FROM products", function (err, res) {
+            if (err) throw err;
+            console.table(res);
+            purchase()
+        },
+        //purchase()
+    )
+};
 
+//prompt purchase function and inquiry
+function purchase() {
+    inquirer.prompt([{
+            name: 'id',
+            type: 'input',
+            message: "What is the ID of the item you would like to purchase? [Quit with Q]"
+        }, {
+            name: 'quantity',
+            type: 'input',
+            message: "How many would you like? [Quit with Q]"
+        }])
+        //product chosen
+        .then(function (answer) {
+            //console.log(res.length);
+            console.log(answer);
+            // for (var i = 0; i < answer.length; i++) {
+            //     if (answer.id == products.id) {
+            //         console.log(res[i]);
+            //         chosenItem = res[i];
+            //     }
+            // }
 
+            connection.query("SELECT * FROM products WHERE item_id = ? ",
+                [answer.id],
+                function (err, res) {
+                    if (err) throw err;
+                    console.log(res);
+                    var chosenItem = res[0]; 
 
-//-----------------------------------------------------------//
-//function to display items for sale on the console
-//-----------------------------------------------------------//
-function showProducts() {
-    connection.query('SELECT * FROM products', function (err, res) {
-        if (err) throw err;
-
-        console.log('');
-        console.log('-------------Current Inventory---------------');
-        console.log('');
-
-
-        for (var i = 0; i < res.length; i++) {
-            console.log('Item ID: ' + res[i].id + '      Product: ' + res[i].product + '      Department: ' + res[i].department);
-            console.log('Price: ' + res[i].price + '      Quanity Left: ' + res[i].quanity);
-            console.log(' ');
-
-        }
-        //call function to start the user prompt for shopping//
-        start();
-    });
+                    //update product quantity
+                    if (chosenItem.stock_quantity < parseInt(answer.number)) {
+                        connection.query("UPDATE products SET ? WHERE ?", [{
+                                    stock_quantity: number
+                                },
+                                {
+                                    item_id: chosenItem
+                                }
+                            ],
+                            function (error) {
+                                if (error) throw err;
+                                console.log("Purchased!");
+                                //display();
+                            }
+                        );
+                    } else {
+                        console.log("Sorry, we do not have that. Please make another selection.");
+                        //display();
+                    }
+                });
+        }, )
 }
 
-//-----------------------------------------------------------//
-// end of function to display items for sale on the console
-//-----------------------------------------------------------//
 
 
-//-----------------------------------------------------------//
-// function to prompt user  on what they would like to do
-//-----------------------------------------------------------//
-function start() {
-    connection.query("SELECT * FROM products", function(err, res) {
-        if (err) throw console.log("connection error:" + err);
-    inquirer
-        .prompt([
-                {
-                    name: 'selectId',
-                    type: 'input',
-                    message: 'Enter ITEM ID for product you wish to purchase:',
-                    validate: function (value) {
-                        if (isNaN(value) === false) {
-                            return true;
-                        }
-                        return false;
-                    }
-
-        },
-
-                {
-                    name: 'amountBought',
-                    type: 'input',
-                    message: 'How many would you like?',
-                    validate: function (value) {
-                        if (isNaN(value) === false) {
-                            return true;
-                        }
-                        return false;
-                    }
-                   
-                }
-            ]).then (function (answers) {
-            var query = "SELECT * FROM products WHERE ?";
-            connection.query(query, {
-                id: answers.selectId
-            }, function (err, res) {
 
 
-                // get the information of the chosen item, set input to variables, pass variables as Parameters
-
-                var inStock = res[0].quanity;
-                var itemBought = answers.amountBought;
-
-                if (inStock >= itemBought) {
-                    var leftInStock = inStock - itemBought;
-                    
-                    ///  testing app to check values of variables /////
-                    ///////////////////////////////////////////////////////////////////////////
-                    
-//                    
-//                    console.log(leftInStock + "  amount left in stock ******");
-//                    console.log(itemBought + "  amount bought");
-//                    console.log(res[0].price + "   price");
-//                    console.log(res[0].price * itemBought + "  total price of items bought");
-//                    console.log(answers.selectId + "  checking id number");
-                    
-                    
-                    ///////////////////////////////////////////////////////////////////////////
-                    /// END testing app to check values of variables /////
-                    
-                    var totalPrice = res[0].price * itemBought;
-                    var itemPurchased = res[0].product;
-                    
-                    console.log(totalPrice + "  total price of items bought");
-                    
-                    connection.query(
-                        "UPDATE products SET ? WHERE ?", [
-                            {
-                                quanity: leftInStock
-                                
-                        },
-                            {
-                                id: answers.selectId
-                        }
-
-                    ],
-                        function (error) {
-//                            console.log(price, amountBought);
-                            if (error) throw err;
-                            console.log("==============================================");
-                            console.log("\n\r");
-                            console.log("Order details:");
-                            console.log("Item(s) purchased: " + itemPurchased);
-                            console.log("Quanity purchased: " + itemBought + " @ $" + res[0].price);
-                            console.log("Total Cost: $" + totalPrice);
-                            console.log("\n\r");
-                            console.log("Thank you for shopping at-fell off the truck online-");
-                            console.log("==============================================");
-                            showProducts();
-
-                        }
-                    );
-                } else {
-                    console.log("==============================================");
-                    console.log("\n\r");
-                    console.log("Not enough available, please choose a different quantity");
-                    console.log("\n\r");
-                    console.log("==============================================");
-                   showProducts();
-
-                }
-
-            });
-        
-        });// inquier.prompt
-        });
-    }// conection.query
+// function afterConnection() {
+//     connection.query("SELECT * FROM products", function(err, res) {
+//       if (err) throw err;
+//       console.log(res);
+//       connection.end();
+//     });
