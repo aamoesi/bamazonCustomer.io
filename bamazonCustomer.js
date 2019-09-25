@@ -1,79 +1,95 @@
-const mysql = require('mysql');
-const inquirer = require('inquirer');
+var mysql = require("mysql");
+var inquirer = require("inquirer");
+var table = require("console.table");
 
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: 'root',
-    database: 'bamazon'
+// Create connection
+var connection = mysql.createConnection({
+    host: "localhost",
+    port: 8889,
+    user: "root",
+    password: "root",
+    database: "bamazon_db"
 });
 
-connection.connect((err) => {
+//connect to mysql server and sql database
+connection.connect(function (err) {
     if (err) throw err;
-    console.log('connected as id ' + connection.threadId);
-    displayTable();
-});
+    //console.log("connected");
+    //run start function after making connection
+    seeTable();
+})
 
-const displayTable = () => {
-    let query = 'SELECT * FROM products';
-    connection.query(query, (error, data) => {
-        if (error) throw error;
-        console.table(data);
-        buyProduct();
-    });
-}
-
-const buyProduct = () => {
-    inquirer
-        .prompt([{
-                type: "input",
-                name: "id",
-                message: "What is the ID of the product you would like to buy? Press Enter Twice To Exit",
-            },
-            //refactor this into second inquirer/prompt in order to add input validation;
-            {
-                type: "input",
-                name: "units",
-                message: "How many units would you like to buy?",
-            }
-        ]).then((input) => {
-            let productID = input.id;
-
-            //move this to new/separate inquirer so that user can quit after first question 
-            if (productID.length == 0) {
-                 process.exit();
-            }
-            let unitsBought = input.units;
-            let query = 'SELECT product_name, price, stock_quantity FROM products WHERE itemID=?';
-            connection.query(query, [input.id], (error, data) => {
-                if (error) throw error;
-                // console.log(data);
-                let stockQuantity = data[0].stock_quantity;
-                let price = data[0].price;
-                let productName = data[0].product_name;
-                if (unitsBought <= stockQuantity) {
-                    console.log("Purchase Complete! You paid $" + (unitsBought * price));
-                    updateDataBase(productID, unitsBought, stockQuantity, price, productName);
-                } else {
-                    console.log("Insufficient Quantity!");
-                }
-            });
-        });
-}
-
-const updateDataBase = (id, bought, stock, price, name) => {
-    // console.log("running update function");
-    var query = connection.query('UPDATE products SET ? WHERE ?', [{
-                stock_quantity: stock - bought
-            },
-            {
-                itemID: id
-            }
-        ],
-        function (err, res) {
+//display table
+var seeTable = function () {
+    connection.query("SELECT * FROM products", function (err, res) {
             if (err) throw err;
-            displayTable();
-        });
+            console.table(res);
+            purchase()
+        },
+        //purchase()
+    )
+};
+
+//prompt purchase function and inquiry
+function purchase() {
+    inquirer.prompt([{
+            name: 'id',
+            type: 'input',
+            message: "What is the ID of the item you would like to purchase? [Quit with Q]"
+        }, {
+            name: 'quantity',
+            type: 'input',
+            message: "How many would you like? [Quit with Q]"
+        }])
+        //product chosen
+        .then(function (answer) {
+            //console.log(res.length);
+            console.log(answer);
+            // for (var i = 0; i < answer.length; i++) {
+            //     if (answer.id == products.id) {
+            //         console.log(res[i]);
+            //         chosenItem = res[i];
+            //     }
+            // }
+
+            connection.query("SELECT * FROM products WHERE item_id = ? ",
+                [answer.id],
+                function (err, res) {
+                    if (err) throw err;
+                    console.log(res);
+                    var chosenItem = res[0]; 
+
+                    //update product quantity
+                    if (chosenItem.stock_quantity < parseInt(answer.number)) {
+                        connection.query("UPDATE products SET ? WHERE ?", [{
+                                    stock_quantity: number
+                                },
+                                {
+                                    item_id: chosenItem
+                                }
+                            ],
+                            function (error) {
+                                if (error) throw err;
+                                console.log("Purchased!");
+                                //display();
+                            }
+                        );
+                    } else {
+                        console.log("Sorry, we do not have that. Please make another selection.");
+                        //display();
+                    }
+                });
+        }, )
 }
+
+
+
+
+
+// function afterConnection() {
+//     connection.query("SELECT * FROM products", function(err, res) {
+//       if (err) throw err;
+//       console.log(res);
+//       connection.end();
+//     });
