@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.16)
 # Database: bamazon
-# Generation Time: 2019-09-25 00:24:12 +0000
+# Generation Time: 2019-09-25 00:36:37 +0000
 # ************************************************************
 
 
@@ -27,12 +27,12 @@ SET NAMES utf8mb4;
 DROP TABLE IF EXISTS `products`;
 
 CREATE TABLE `products` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `item_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `product_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `department_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `price` decimal(10,4) NOT NULL,
   `stock_quantity` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
