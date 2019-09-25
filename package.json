@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/aamoesi/bamazonCustomer.io#readme",
   "dependencies": {
+    "console.table": "^0.10.0",
     "express": "^4.17.1",
     "inquirer": "^7.0.0",
     "jshint": "^2.10.2",
