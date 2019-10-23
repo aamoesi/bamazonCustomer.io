@@ -26,9 +26,10 @@ The app should then prompt users with two messages.
 
 The first should ask them the ID of the product they would like to buy.
 
-![product ID](/screenshots/stockdispay.png)
+![product ID](stockdispay.png)
 
-![product ID](screenshots/stockdispay.png)
+![productID](/stockdispay.png)
+<img src="/stockdisplay.png">
 
 
 The second message should ask how many units of the product they would like to buy.
