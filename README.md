@@ -30,9 +30,7 @@ The first should ask them the ID of the product they would like to buy.
 
 ![Alternate text](/stockdispay.png)
 
-![Procuct ID](https://aamoesi.github.com/bamazonCustomer.io/stockdispay.png)
-
-
+![Procuct ID](https://github.com/aamoesi/bamazonCustomer.io/blob/master/screenshots/stockdisplay.png)
 
 The second message should ask how many units of the product they would like to buy.
 Once the customer has placed the order, your application should check if your store has enough of the product to meet the customer's request.
