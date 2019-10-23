@@ -7,7 +7,7 @@ const connection = mysql.createConnection({
     port: 3306,
     user: 'root',
     password: 'root',
-    database: 'bamazon'
+    database: 'bamazon_db'
 });
 
 connection.connect((err) => {
@@ -46,7 +46,7 @@ const buyProduct = () => {
                  process.exit();
             }
             let unitsBought = input.units;
-            let query = 'SELECT product_name, price, stock_quantity FROM products WHERE itemID=?';
+            let query = 'SELECT product_name, price, stock_quantity FROM products WHERE item_id=?';
             connection.query(query, [input.id], (error, data) => {
                 if (error) throw error;
                 // console.log(data);
@@ -69,7 +69,7 @@ const updateDataBase = (id, bought, stock, price, name) => {
                 stock_quantity: stock - bought
             },
             {
-                itemID: id
+                item_id: id
             }
         ],
         function (err, res) {
