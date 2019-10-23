@@ -29,6 +29,8 @@ The first should ask them the ID of the product they would like to buy.
 ![Alternate text](stockdispay.png)
 
 ![Alternate text](/stockdispay.png)
+
+![Image of Yaktocat](https://aamoesi.github.com/bamazonCustomer.io/bamazonCustomer.io)
 <img src="/stockdisplay.png">
 
 
