@@ -1,4 +1,4 @@
-#************************************************************
+# ************************************************************
 # Sequel Pro SQL dump
 # Version 5446
 #
@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.16)
 # Database: bamazon_db
-# Generation Time: 2019-09-25 02:21:04 +0000
+# Generation Time: 2019-10-23 03:54:08 +0000
 # ************************************************************
 
 
@@ -40,16 +40,16 @@ LOCK TABLES `products` WRITE;
 
 INSERT INTO `products` (`item_id`, `product_name`, `department_name`, `price`, `stock_quantity`)
 VALUES
-	(1,'Paperclips','Office Supplies',9.9700,3579),
-	(2,'Tape Measure','Hardware',11.1700,293),
-	(3,'Black Tea','Grocery',3.2100,517),
-	(4,'Book Ends','Home Goods',21.3300,901),
-	(5,'Tank Top','Clothing',1.1900,2453),
-	(6,'Cheese Grater','Kitchen',5.1100,1791),
-	(7,'MacBook Pro','Tech',6471.1900,973),
-	(8,'Necklace','Jewelry',573.1700,5689),
-	(9,'Puppy','Pet Supplies',1213.5100,7773),
-	(10,'Tesla','Cars',59.9900,1111);
+	(1,'Blue Buffalo','Pet Supplies',2.0000,454),
+	(2,'iphone 11','Electronic',1089.0000,0),
+	(3,'Tool Tower','Garden',79.0000,34),
+	(4,'Forest Ham','Food',5.2000,42),
+	(5,'Precleanse','Beauty',4.9900,334),
+	(6,'Allignment Stix','Sports',89.9900,662),
+	(7,'LeapFrog Scoop','Toys',21.9900,89),
+	(8,'Battery','Automotive',69.9900,12),
+	(9,'Five TV Cube','Smart Homes',121.7800,983),
+	(10,'ATI TEAS','Books',12.4500,62);
 
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
