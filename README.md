@@ -26,9 +26,9 @@ The app should then prompt users with two messages.
 
 The first should ask them the ID of the product they would like to buy.
 
-![product ID](stockdispay.png)
+![Alternate text](stockdispay.png)
 
-![productID](/stockdispay.png)
+![Alternate text](/stockdispay.png)
 <img src="/stockdisplay.png">
 
 
