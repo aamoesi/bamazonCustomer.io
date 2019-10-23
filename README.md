@@ -30,8 +30,8 @@ The first should ask them the ID of the product they would like to buy.
 
 ![Alternate text](/stockdispay.png)
 
-![Image of Yaktocat](https://aamoesi.github.com/bamazonCustomer.io/bamazonCustomer.io)
-<img src="/stockdisplay.png">
+![Procuct ID](https://aamoesi.github.com/bamazonCustomer.io/stockdispay.png)
+
 
 
 The second message should ask how many units of the product they would like to buy.
